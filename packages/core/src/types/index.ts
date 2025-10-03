@@ -1,23 +1,24 @@
-import { BigNumber } from 'ethers'
-
-import { units } from '../constants'
-
-export type { WithProvider } from './actions'
-
-export type Balance = {
-  decimals: number
-  formatted: string
-  symbol: string
-  unit: Unit | number
-  value: BigNumber
-}
+import {
+  BlockExplorer,
+  BlockExplorerName,
+  RpcProviderName,
+  units,
+} from '../constants'
 
 export type Chain = {
   id: number
   name: AddEthereumChainParameter['chainName']
   nativeCurrency?: AddEthereumChainParameter['nativeCurrency']
-  rpcUrls: AddEthereumChainParameter['rpcUrls']
-  blockExplorers?: { name: string; url: string }[]
+  rpcUrls: { [key in RpcProviderName]?: string } & {
+    [key: string]: string
+    default: string
+  }
+  blockExplorers?: {
+    [key in BlockExplorerName]: BlockExplorer
+  } & {
+    [key: string]: BlockExplorer
+    default: BlockExplorer
+  }
   testnet?: boolean
 }
 
@@ -30,7 +31,7 @@ declare global {
     nativeCurrency?: {
       name: string
       symbol: string // 2-6 characters long
-      decimals: 18
+      decimals: number
     }
     rpcUrls: string[]
     blockExplorerUrls?: string[]
@@ -47,29 +48,64 @@ declare global {
     }
   }
 
-  type RequestArguments =
-    | { method: 'eth_accounts' }
-    | { method: 'eth_chainId' }
-    | { method: 'eth_requestAccounts' }
-    | { method: 'personal_sign'; params: [string, string] }
-    | { method: 'wallet_addEthereumChain'; params: AddEthereumChainParameter[] }
-    | { method: 'wallet_switchEthereumChain'; params: [{ chainId: string }] }
-    | { method: 'wallet_watchAsset'; params: WatchAssetParams }
-
-  type InjectedProviders = {
+  type InjectedProviderFlags = {
     isBraveWallet?: true
     isCoinbaseWallet?: true
     isFrame?: true
     isMetaMask?: true
+    isOpera?: true
     isTally?: true
+    isTokenary?: true
+    isTrust?: true
+  }
+
+  type InjectedProviders = InjectedProviderFlags & {
+    isMetaMask: true
+    /** Only exists in MetaMask as of 2022/04/03 */
+    _events: {
+      connect?: () => void
+    }
+    /** Only exists in MetaMask as of 2022/04/03 */
+    _state?: {
+      accounts?: string[]
+      initialized?: boolean
+      isConnected?: boolean
+      isPermanentlyDisconnected?: boolean
+      isUnlocked?: boolean
+    }
+  }
+
+  interface Ethereum extends InjectedProviders {
+    on?: (...args: any[]) => void
+    removeListener?: (...args: any[]) => void
+    providers?: Ethereum[]
+
+    // RPC Request API Methods
+    // https://docs.metamask.io/guide/rpc-api.html
+    request(args: { method: 'eth_accounts' }): Promise<string[]>
+    request(args: { method: 'eth_chainId' }): Promise<string>
+    request(args: { method: 'eth_requestAccounts' }): Promise<string[]>
+    request(args: {
+      method: 'personal_sign'
+      params: [string, string]
+    }): Promise<string>
+    request(args: {
+      method: 'wallet_addEthereumChain'
+      params: AddEthereumChainParameter[]
+    }): Promise<null>
+    request(args: {
+      method: 'wallet_switchEthereumChain'
+      params: [{ chainId: string }]
+    }): Promise<null>
+    request(args: {
+      method: 'wallet_watchAsset'
+      params: WatchAssetParams
+    }): Promise<boolean>
+    request(args: { method: 'web3_clientVersion' }): Promise<string>
   }
 
   interface Window {
-    ethereum?: InjectedProviders & {
-      on?: (...args: any[]) => void
-      removeListener?: (...args: any[]) => void
-      request<T = any>(args: RequestArguments): Promise<T>
-    }
+    ethereum?: Ethereum
   }
 
   interface ProviderRpcError extends Error {

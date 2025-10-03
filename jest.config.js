@@ -1,10 +1,14 @@
 const config = {
   coveragePathIgnorePatterns: ['/node_modules/', '/dist/', '/test/'],
+  globals: {
+    Uint8Array: Uint8Array,
+    ArrayBuffer: ArrayBuffer,
+  },
   snapshotFormat: {
     printBasicPrototype: false,
   },
   transform: {
-    '^.+\\.ts(x)?$': [
+    '^.+\\.(ts|js)(x)?$': [
       '@swc-node/jest',
       {
         jsc: {
@@ -24,7 +28,7 @@ module.exports = {
       ...config,
       displayName: 'core',
       setupFilesAfterEnv: ['<rootDir>/packages/core/test/setup.ts'],
-      testEnvironment: 'node',
+      testEnvironment: 'jsdom',
       testRegex: 'packages/core/.*\\.test\\.ts$',
     },
     {
@@ -34,13 +38,8 @@ module.exports = {
       testEnvironment: 'jsdom',
       testRegex: 'packages/react/.*\\.test\\.ts(x)?$',
     },
-    {
-      ...config,
-      displayName: 'testing',
-      testEnvironment: 'node',
-      testRegex: 'packages/testing/.*\\.test\\.ts$',
-    },
   ],
+  reporters: ['default', 'github-actions'],
   watchPlugins: [
     'jest-watch-typeahead/filename',
     'jest-watch-typeahead/testname',

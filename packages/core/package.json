@@ -1,7 +1,9 @@
 {
-  "name": "wagmi-core",
-  "license": "MIT",
-  "version": "0.1.21",
+  "name": "@wagmi/core",
+  "description": "Vanilla JS library for Ethereum",
+  "license": "WAGMIT",
+  "version": "0.2.5",
+  "author": "awkweb.eth",
   "ethereum": "awkweb.eth",
   "repository": "tmm/wagmi",
   "sideEffects": false,
@@ -13,38 +15,40 @@
       "module": "./dist/wagmi-core.esm.js",
       "default": "./dist/wagmi-core.cjs.js"
     },
-    "./connectors/walletConnect": {
-      "module": "./connectors/walletConnect/dist/wagmi-core-connectors-walletConnect.esm.js",
-      "default": "./connectors/walletConnect/dist/wagmi-core-connectors-walletConnect.cjs.js"
-    },
-    "./connectors/walletLink": {
-      "module": "./connectors/walletLink/dist/wagmi-core-connectors-walletLink.esm.js",
-      "default": "./connectors/walletLink/dist/wagmi-core-connectors-walletLink.cjs.js"
-    },
     "./connectors/coinbaseWallet": {
       "module": "./connectors/coinbaseWallet/dist/wagmi-core-connectors-coinbaseWallet.esm.js",
       "default": "./connectors/coinbaseWallet/dist/wagmi-core-connectors-coinbaseWallet.cjs.js"
+    },
+    "./connectors/metaMask": {
+      "module": "./connectors/metaMask/dist/wagmi-core-connectors-metaMask.esm.js",
+      "default": "./connectors/metaMask/dist/wagmi-core-connectors-metaMask.cjs.js"
+    },
+    "./connectors/mock": {
+      "module": "./connectors/mock/dist/wagmi-core-connectors-mock.esm.js",
+      "default": "./connectors/mock/dist/wagmi-core-connectors-mock.cjs.js"
+    },
+    "./connectors/walletConnect": {
+      "module": "./connectors/walletConnect/dist/wagmi-core-connectors-walletConnect.esm.js",
+      "default": "./connectors/walletConnect/dist/wagmi-core-connectors-walletConnect.cjs.js"
     }
   },
   "files": [
     "/dist",
-    "/connectors/walletConnect/",
-    "/connectors/walletLink/",
-    "/connectors/coinbaseWallet/"
+    "/connectors"
   ],
   "preconstruct": {
     "entrypoints": [
       "index.ts",
+      "connectors/coinbaseWallet.ts",
+      "connectors/metaMask.ts",
       "connectors/walletConnect.ts",
-      "connectors/walletLink.ts",
-      "connectors/coinbaseWallet.ts"
+      "connectors/mock/index.ts"
     ]
   },
   "peerDependencies": {
-    "@coinbase/wallet-sdk": "^3.0.8",
-    "@walletconnect/ethereum-provider": "1.7.5",
-    "ethers": "^5.5.1",
-    "walletlink": "^2.5.0"
+    "@coinbase/wallet-sdk": ">=3.0.6",
+    "@walletconnect/ethereum-provider": ">=1.7.5",
+    "ethers": ">=5.5.1"
   },
   "peerDependenciesMeta": {
     "@coinbase/wallet-sdk": {
@@ -52,20 +56,22 @@
     },
     "@walletconnect/ethereum-provider": {
       "optional": true
-    },
-    "walletlink": {
-      "optional": true
     }
   },
   "dependencies": {
-    "@ethersproject/providers": "^5.5.1",
-    "eventemitter3": "^4.0.7"
+    "eventemitter3": "^4.0.7",
+    "zustand": "^4.0.0-rc.1"
   },
   "devDependencies": {
-    "@coinbase/wallet-sdk": "^3.0.8",
-    "@walletconnect/ethereum-provider": "1.7.5",
-    "ethers": "^5.5.1",
-    "wagmi-testing": "0.1.21",
-    "walletlink": "^2.5.0"
-  }
+    "@coinbase/wallet-sdk": "^3.0.11",
+    "@walletconnect/ethereum-provider": "^1.7.8",
+    "ethers": "^5.6.5"
+  },
+  "keywords": [
+    "eth",
+    "ethereum",
+    "dapps",
+    "wallet",
+    "web3"
+  ]
 }

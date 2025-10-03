@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { providers } from 'ethers'
 import {
   Links,
@@ -10,18 +11,16 @@ import {
 } from 'remix'
 import type { MetaFunction } from 'remix'
 
-// Imports
-import { Connector, Provider, chain, defaultChains } from 'wagmi'
-import { InjectedConnector } from 'wagmi/connectors/injected'
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
+import { Provider, chain, createClient, defaultChains } from 'wagmi'
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
+import { InjectedConnector } from 'wagmi/connectors/injected'
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 
 export function loader() {
   require('dotenv').config()
   return {
     alchemyId: process.env.REMIX_ALCHEMY_ID as string,
-    etherscanApiKey: process.env.REMIX_ETHERSCAN_API_KEY as string,
-    infuraId: process.env.REMIX_INFURA_ID as string,
   }
 }
 
@@ -29,57 +28,60 @@ export const meta: MetaFunction = () => {
   return { title: 'wagmi' }
 }
 
+const chains = defaultChains
+const defaultChain = chain.mainnet
+
+const isChainSupported = (chainId?: number) =>
+  chains.some((x) => x.id === chainId)
+
 export default function App() {
-  // Get environment variables
-  const { alchemyId, etherscanApiKey, infuraId } = useLoaderData()
+  const { alchemyId } = useLoaderData()
 
-  // Pick chains
-  const chains = defaultChains
-  const defaultChain = chain.mainnet
-
-  // Set up connectors
-  type ConnectorsConfig = { chainId?: number }
-  const connectors = ({ chainId }: ConnectorsConfig) => {
-    const rpcUrl =
-      chains.find((x) => x.id === chainId)?.rpcUrls?.[0] ??
-      defaultChain.rpcUrls[0]
-    return [
-      new InjectedConnector({ chains, options: { shimDisconnect: true } }),
-      new WalletConnectConnector({
-        chains,
-        options: {
-          infuraId,
-          qrcode: true,
+  const client = useMemo(
+    () =>
+      createClient({
+        autoConnect: true,
+        connectors({ chainId }) {
+          const chain = chains.find((x) => x.id === chainId) ?? defaultChain
+          const rpcUrl = chain.rpcUrls.alchemy
+            ? `${chain.rpcUrls.alchemy}/${alchemyId}`
+            : chain.rpcUrls.default
+          return [
+            new InjectedConnector({ chains }),
+            new CoinbaseWalletConnector({
+              chains,
+              options: {
+                appName: 'wagmi',
+                chainId: chain.id,
+                jsonRpcUrl: rpcUrl,
+              },
+            }),
+            new WalletConnectConnector({
+              chains,
+              options: {
+                qrcode: true,
+                rpc: {
+                  [chain.id]: rpcUrl,
+                },
+              },
+            }),
+          ]
+        },
+        provider({ chainId }) {
+          return new providers.AlchemyProvider(
+            isChainSupported(chainId) ? chainId : defaultChain.id,
+            alchemyId,
+          )
+        },
+        webSocketProvider({ chainId }) {
+          return new providers.AlchemyWebSocketProvider(
+            isChainSupported(chainId) ? chainId : defaultChain.id,
+            alchemyId,
+          )
         },
       }),
-      new CoinbaseWalletConnector({
-        chains,
-        options: {
-          appName: 'wagmi',
-          jsonRpcUrl: `${rpcUrl}/${infuraId}`,
-        },
-      }),
-    ]
-  }
-
-  // Set up providers
-  type ProviderConfig = { chainId?: number; connector?: Connector }
-  const isChainSupported = (chainId?: number) =>
-    chains.some((x) => x.id === chainId)
-
-  const provider = ({ chainId }: ProviderConfig) =>
-    providers.getDefaultProvider(
-      isChainSupported(chainId) ? chainId : defaultChain.id,
-      {
-        alchemy: alchemyId,
-        etherscan: etherscanApiKey,
-        infura: infuraId,
-      },
-    )
-  const webSocketProvider = ({ chainId }: ProviderConfig) =>
-    isChainSupported(chainId)
-      ? new providers.InfuraWebSocketProvider(chainId, infuraId)
-      : undefined
+    [alchemyId],
+  )
 
   return (
     <html lang="en">
@@ -91,12 +93,7 @@ export default function App() {
         <script> var global = global || window; </script>
       </head>
       <body>
-        <Provider
-          autoConnect
-          connectors={connectors}
-          provider={provider}
-          webSocketProvider={webSocketProvider}
-        >
+        <Provider client={client}>
           <Outlet />
         </Provider>
         <ScrollRestoration />

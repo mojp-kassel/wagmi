@@ -1,4 +1,206 @@
-# wagmi-core
+# @wagmi/core
+
+## 0.2.5
+
+### Patch Changes
+
+- [`4e03666`](https://github.com/tmm/wagmi/commit/4e03666428d42fc9186c617001b5eb356229677e) Thanks [@tmm](https://github.com/tmm)! - bump dependencies #429
+  add imToken support for WC switch chains #432
+  fix MetaMask and Brave Wallet collision #436
+
+## 0.2.4
+
+### Patch Changes
+
+- [#421](https://github.com/tmm/wagmi/pull/421) [`a232b3f`](https://github.com/tmm/wagmi/commit/a232b3ff5cc41e882c4d2a34c599a8cb670edd2b) Thanks [@tmm](https://github.com/tmm)! - fix erc721 abi
+
+## 0.2.3
+
+### Patch Changes
+
+- [#412](https://github.com/tmm/wagmi/pull/412) [`80bef4f`](https://github.com/tmm/wagmi/commit/80bef4ff3f714b0b8f896f1b4b658acc7266299b) Thanks [@markdalgleish](https://github.com/markdalgleish)! - Import providers from `ethers` peer dependency rather than `@ethersproject/providers` to avoid multiple conflicting versions being installed
+
+## 0.2.2
+
+### Patch Changes
+
+- [`018c2a1`](https://github.com/tmm/wagmi/commit/018c2a11b22ee513571cc7f83fd63f7eb169ee70) Thanks [@tmm](https://github.com/tmm)! - - warn and fallback to default client #380
+
+  - remove signerOrProvider option from read contract #390
+
+  - MetaMaskConnector #391
+
+## 0.2.1
+
+### Patch Changes
+
+- [`afc4607`](https://github.com/tmm/wagmi/commit/afc46071e91601ab8a2b465524da796cd60b6ad4) Thanks [@tmm](https://github.com/tmm)! - - Fix time scaling e9593df
+  - Use fully-specified path for use-sync-external-store import 7b235c1
+  - Update serialize 236fc17
+
+## 0.2.0
+
+### Minor Changes
+
+- [#311](https://github.com/tmm/wagmi/pull/311) [`24ce011`](https://github.com/tmm/wagmi/commit/24ce0113022b890e9582c6cc24035926e0d2b32d) Thanks [@tmm](https://github.com/tmm)! - don't persist account data when `autoConnect` is falsy
+
+* [#311](https://github.com/tmm/wagmi/pull/311) [`24ce011`](https://github.com/tmm/wagmi/commit/24ce0113022b890e9582c6cc24035926e0d2b32d) Thanks [@tmm](https://github.com/tmm)! - - fix(@wagmi/core): persist connector chains to local storage
+
+- [#311](https://github.com/tmm/wagmi/pull/311) [`24ce011`](https://github.com/tmm/wagmi/commit/24ce0113022b890e9582c6cc24035926e0d2b32d) Thanks [@tmm](https://github.com/tmm)! - - Favour `message` event over `connecting` event to conform to EIP-1193
+  - Export `useWaitForTransaction`
+
+* [#311](https://github.com/tmm/wagmi/pull/311) [`24ce011`](https://github.com/tmm/wagmi/commit/24ce0113022b890e9582c6cc24035926e0d2b32d) Thanks [@tmm](https://github.com/tmm)! - Initial 0.3.0 release
+
+- [#311](https://github.com/tmm/wagmi/pull/311) [`24ce011`](https://github.com/tmm/wagmi/commit/24ce0113022b890e9582c6cc24035926e0d2b32d) Thanks [@tmm](https://github.com/tmm)! - Add `cacheOnBlock` config for `useContractRead`
+  Update `react-query` to v4
+  Fix `watchBlockNumber` listener leak
+
+* [#311](https://github.com/tmm/wagmi/pull/311) [`24ce011`](https://github.com/tmm/wagmi/commit/24ce0113022b890e9582c6cc24035926e0d2b32d) Thanks [@tmm](https://github.com/tmm)! - add `connecting` event to connectors
+
+- [#311](https://github.com/tmm/wagmi/pull/311) [`24ce011`](https://github.com/tmm/wagmi/commit/24ce0113022b890e9582c6cc24035926e0d2b32d) Thanks [@tmm](https://github.com/tmm)! - Fix issue where `getProvider` was not being awaited in `getSigner`
+
+* [#311](https://github.com/tmm/wagmi/pull/311) [`24ce011`](https://github.com/tmm/wagmi/commit/24ce0113022b890e9582c6cc24035926e0d2b32d) Thanks [@tmm](https://github.com/tmm)! - - remove storage persistence of `connector`
+  - add `chains` to client state
+
+### Patch Changes
+
+- [#311](https://github.com/tmm/wagmi/pull/311) [`24ce011`](https://github.com/tmm/wagmi/commit/24ce0113022b890e9582c6cc24035926e0d2b32d) Thanks [@tmm](https://github.com/tmm)! - add chainId to actions and hooks
+
+* [#311](https://github.com/tmm/wagmi/pull/311) [`24ce011`](https://github.com/tmm/wagmi/commit/24ce0113022b890e9582c6cc24035926e0d2b32d) Thanks [@tmm](https://github.com/tmm)! - showtime
+
+- [#311](https://github.com/tmm/wagmi/pull/311) [`24ce011`](https://github.com/tmm/wagmi/commit/24ce0113022b890e9582c6cc24035926e0d2b32d) Thanks [@tmm](https://github.com/tmm)! - improve type support for ethers providers
+
+* [#311](https://github.com/tmm/wagmi/pull/311) [`24ce011`](https://github.com/tmm/wagmi/commit/24ce0113022b890e9582c6cc24035926e0d2b32d) Thanks [@tmm](https://github.com/tmm)! - update zustand
+
+- [#311](https://github.com/tmm/wagmi/pull/311) [`24ce011`](https://github.com/tmm/wagmi/commit/24ce0113022b890e9582c6cc24035926e0d2b32d) Thanks [@tmm](https://github.com/tmm)! - update babel target
+
+* [#311](https://github.com/tmm/wagmi/pull/311) [`24ce011`](https://github.com/tmm/wagmi/commit/24ce0113022b890e9582c6cc24035926e0d2b32d) Thanks [@tmm](https://github.com/tmm)! - update block explorers and rpc urls structure
+
+- [#311](https://github.com/tmm/wagmi/pull/311) [`24ce011`](https://github.com/tmm/wagmi/commit/24ce0113022b890e9582c6cc24035926e0d2b32d) Thanks [@tmm](https://github.com/tmm)! - keep previous data when watching
+
+* [#311](https://github.com/tmm/wagmi/pull/311) [`24ce011`](https://github.com/tmm/wagmi/commit/24ce0113022b890e9582c6cc24035926e0d2b32d) Thanks [@tmm](https://github.com/tmm)! - republish
+
+- [#311](https://github.com/tmm/wagmi/pull/311) [`24ce011`](https://github.com/tmm/wagmi/commit/24ce0113022b890e9582c6cc24035926e0d2b32d) Thanks [@tmm](https://github.com/tmm)! - fix stale connectors when switching chains
+
+* [#311](https://github.com/tmm/wagmi/pull/311) [`24ce011`](https://github.com/tmm/wagmi/commit/24ce0113022b890e9582c6cc24035926e0d2b32d) Thanks [@tmm](https://github.com/tmm)! - last beta
+
+## 0.2.0-next.18
+
+### Patch Changes
+
+- showtime
+
+## 0.2.0-next.17
+
+### Patch Changes
+
+- update block explorers and rpc urls structure
+
+## 0.2.0-next.16
+
+### Patch Changes
+
+- last beta
+
+## 0.2.0-next.15
+
+### Patch Changes
+
+- update zustand
+
+## 0.2.0-next.14
+
+### Minor Changes
+
+- Add `cacheOnBlock` config for `useContractRead`
+- Update `react-query` to v4
+- Fix `watchBlockNumber` listener leak
+
+## 0.2.0-next.13
+
+### Patch Changes
+
+- keep previous data when watching
+
+## 0.2.0-next.12
+
+### Patch Changes
+
+- add chainId to actions and hooks
+
+## 0.2.0-next.11
+
+### Patch Changes
+
+- fix stale connectors when switching chains
+
+## 0.2.0-next.10
+
+### Patch Changes
+
+- republish
+
+## 0.2.0-next.9
+
+### Patch Changes
+
+- improve type support for ethers providers
+
+## 0.2.0-next.8
+
+### Patch Changes
+
+- update babel target
+
+## 0.2.0-next.7
+
+### Minor Changes
+
+- - Favour `message` event over `connecting` event to conform to EIP-1193
+  - Export `useWaitForTransaction`
+
+## 0.2.0-next.6
+
+### Minor Changes
+
+- add `connecting` event to connectors
+
+## 0.2.0-next.5
+
+### Minor Changes
+
+- don't persist account data when `autoConnect` is falsy
+
+## 0.2.0-next.4
+
+### Minor Changes
+
+- remove storage persistence of `connector`
+- add `chains` to client state
+
+## 0.2.0-next.3
+
+### Minor Changes
+
+- Fix issue where `getProvider` was not being awaited in `getSigner`
+
+## 0.2.0-next.2
+
+### Minor Changes
+
+- fix: persist connector chains to local storage
+
+## 0.2.0-next.1
+
+### Minor Changes
+
+- Initial 0.3.0 release
+
+## 0.1.22
+
+### Patch Changes
+
+- [`747d895`](https://github.com/tmm/wagmi/commit/747d895a54b562958afde34b1d34e81ab5039e2c) Thanks [@tmm](https://github.com/tmm)! - add warning to WalletLinkConnector
 
 ## 0.1.21
 
